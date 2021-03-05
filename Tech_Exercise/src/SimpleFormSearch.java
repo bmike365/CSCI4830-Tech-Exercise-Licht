@@ -28,7 +28,7 @@ public class SimpleFormSearch extends HttpServlet {
    void search(String keyword, String searchby, HttpServletResponse response) throws IOException {
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
-      String title = "Database Result";
+      String title = "Search Results";
       String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + //
             "transitional//en\">\n"; //
       out.println(docType + //

@@ -20,11 +20,12 @@ public class SimpleFormSearch extends HttpServlet {
    }
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      String keyword = request.getParameter("keyword");
-      search(keyword, response);
+	  String searchby = request.getParameter("Search");
+	  String keyword = request.getParameter("keyword");
+      search(keyword, searchby, response);
    }
 
-   void search(String keyword, HttpServletResponse response) throws IOException {
+   void search(String keyword, String searchby, HttpServletResponse response) throws IOException {
       response.setContentType("text/html");
       PrintWriter out = response.getWriter();
       String title = "Database Result";
@@ -45,11 +46,30 @@ public class SimpleFormSearch extends HttpServlet {
          if (keyword.isEmpty()) {
             String selectSQL = "SELECT * FROM bookshelf";
             preparedStatement = connection.prepareStatement(selectSQL);
-         } else {
-            String selectSQL = "SELECT * FROM bookshelf WHERE TITLE LIKE ?";
-            String theUserName = keyword + "%";
-            preparedStatement = connection.prepareStatement(selectSQL);
-            preparedStatement.setString(1, theUserName);
+         } 
+         else {
+        	 if(searchby.equals("Title"))
+        	 {
+        		 String selectSQL = "SELECT * FROM bookshelf WHERE TITLE LIKE ?";
+        		 String theTitle = "%" + keyword + "%";
+        		 preparedStatement = connection.prepareStatement(selectSQL);
+        		 preparedStatement.setString(1, theTitle);
+        	 }
+        	 else if(searchby.equals("Name"))
+        	 {
+        		 String selectSQL = "SELECT * FROM bookshelf WHERE FIRSTNAME LIKE ? OR LASTNAME LIKE ?";
+        		 String theAuthor = "%" + keyword + "%";
+        		 preparedStatement = connection.prepareStatement(selectSQL);
+        		 preparedStatement.setString(1, theAuthor);
+        		 preparedStatement.setString(2, theAuthor);
+        	 }
+        	 else
+        	 {
+        		 String selectSQL = "SELECT * FROM bookshelf WHERE ISBN LIKE ?";
+        		 String theISBN = "%" + keyword + "%";
+        		 preparedStatement = connection.prepareStatement(selectSQL);
+        		 preparedStatement.setString(1, theISBN);
+        	 }
          }
          ResultSet rs = preparedStatement.executeQuery();
 
@@ -60,14 +80,13 @@ public class SimpleFormSearch extends HttpServlet {
             String lastname = rs.getString("lastname").trim();
             String ISBN = rs.getString("ISBN").trim();
             String publisher = rs.getString("publisher").trim();
-
-            if (keyword.isEmpty() || bookTitle.contains(keyword)) {
-               out.println("ID: " + id + ", ");
-               out.println("Title: " + bookTitle + ", ");
-               out.println("Author: " + lastname + ", "+ firstname + ", ");
-               out.println("ISBN: " + ISBN + ", ");
-               out.println("Publisher: " + publisher + "<br>");
-            }
+            
+            out.println("ID: " + id + ", ");
+            out.println("Title: " + bookTitle + ", ");
+            out.println("Author: " + lastname + ", "+ firstname + ", ");
+            out.println("ISBN: " + ISBN + ", ");
+            out.println("Publisher: " + publisher + "<br>");
+            
          }
          out.println("<a href=/Tech_Exercise/SimpleFormSearch.html>Search Data</a> <br>");
          out.println("</body></html>");

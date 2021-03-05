@@ -1,0 +1,68 @@
+<html>
+<head>
+<style>
+header {
+    background-color:black;
+    color:white;
+    text-align:center;
+    padding:5px;	 
+}
+nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    height:300px;
+    width:100px;
+    float:left;
+    padding:5px;	      
+}
+section {
+    width:350px;
+    float:left;
+    padding:10px;	 	 
+}
+footer {
+    background-color:black;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding:5px;	 	 
+}
+</style>
+</head>
+
+<body>
+<header>
+<h1> Search Data </h1>
+</header>
+
+<nav>
+<a href="/Tech_Exercise/SimpleFormInsert.html">Insert Data</a> <br>
+</nav>
+
+<section>
+	<h1>User Input</h1>
+	
+	<form action="SimpleFormSearch" method="POST">
+	
+		Search: <input type="text" name="keyword"> <br />
+		
+		<input type="submit" value="Search" />
+	</form>
+	
+	<p>Select which category to search by: </p>
+	<form>
+	<input type="radio" id="title" name="searchvalue" value="title" checked>
+  <label for="title">title</label><br>
+  <input type="radio" id="author name" name="searchvalue" value="author">
+  <label for="author">author</label><br>
+  <input type="radio" id="ISBN" name="searchvalue" value="ISBN">
+  <label for="ISBN">ISBN</label>
+	</form>
+
+</section>
+
+<footer>
+Copyright
+</footer>
+</body>
+</html>
